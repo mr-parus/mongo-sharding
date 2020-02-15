@@ -1,0 +1,12 @@
+{
+  "name": "advanced_users_storing",
+  "version": "1.0.0",
+  "keywords": [
+    "sharding",
+    "mongodb",
+    "docker"
+  ],
+  "scripts": {
+    "build": "docker-compose up --build -d"
+  }
+}
