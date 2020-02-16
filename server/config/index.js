@@ -5,7 +5,7 @@ const {
   MONGO_DB_NAME = 'db',
   MONGO_HOST = 'localhost',
   MONGO_PASSWORD = 'admin',
-  MONGO_PORT = 27017,
+  MONGO_PORT = '27017',
   MONGO_USER = 'admin'
 } = process.env;
 
