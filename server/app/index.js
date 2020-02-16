@@ -15,4 +15,4 @@ app
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
-  .on('error', err => log.error('Error occurred:', err.message));
+  .on('error', err => log.error('Error occurred: %s', err.message));

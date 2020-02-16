@@ -12,7 +12,7 @@ const {
 export const db = {
   mongo: {
     connectOptions: {
-      autoIndex: false,
+      autoIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true
     },

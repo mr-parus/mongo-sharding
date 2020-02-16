@@ -11,7 +11,7 @@ const {
 mongoose.Promise = Promise;
 
 mongoose.set('debug', (collectionName, method, query, doc) => {
-  log.debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc);
+  log.debug(`${collectionName}.${method} %s`, util.inspect(query, false, 20), doc);
 });
 
 mongoose.connection.on('connecting', () => log.debug('Trying to connect to MongoDB: %s', connectURI));

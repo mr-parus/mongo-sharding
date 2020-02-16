@@ -12,6 +12,7 @@
     "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node ./index.js"
   },
   "dependencies": {
+    "faker": "^4.1.0",
     "http-custom-errors": "^8.0.0",
     "kcors": "^2.2.2",
     "koa": "^2.11.0",
@@ -22,6 +23,7 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.1",
     "pretty-ms": "^6.0.0",
+    "validator": "^12.2.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
