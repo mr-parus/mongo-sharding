@@ -14,3 +14,10 @@ for shard in "${array[@]}"; do
         sh.addShard("${shard}");
 EOF
 done
+
+
+#create a user for accessing DB
+/usr/bin/mongo --port 27017 <<EOF
+use admin;
+db.createUser({user: 'admin', pwd: 'admin', roles: [{role: 'clusterAdmin', db: 'admin'}, "readWrite"]})
+EOF
