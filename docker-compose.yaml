@@ -138,3 +138,19 @@ services:
       - 27017
     ports:
       - 27017:27017
+
+  # SERVER
+
+  server_dev:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    environment:
+      - MONGO_HOST=router1
+    depends_on:
+      - router1
+    ports:
+    - 3000:3000
+    volumes:
+    - /app/node_modules
+    - ./server:/app

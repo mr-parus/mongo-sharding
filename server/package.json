@@ -8,8 +8,8 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "docker-compose up --build -d",
-    "start": "node --experimental-modules --es-module-specifier-resolution=node server"
+    "start": "node --experimental-modules --es-module-specifier-resolution=node ./index.js",
+    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node ./index.js"
   },
   "dependencies": {
     "http-custom-errors": "^8.0.0",
@@ -30,6 +30,7 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
+    "nodemon": "^2.0.2",
     "prettier": "^1.19.1"
   }
 }

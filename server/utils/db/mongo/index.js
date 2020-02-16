@@ -14,6 +14,7 @@ mongoose.set('debug', (collectionName, method, query, doc) => {
   log.debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc);
 });
 
+mongoose.connection.on('connecting', () => log.debug('Trying to connect to MongoDB: %s', connectURI));
 mongoose.connection.on('connected', () => log.debug('The connection established to MongoDB: %s', connectURI));
 mongoose.connection.on('disconnected', () => log.debug('Disconnected from MongoDB: %s', connectURI));
 mongoose.connection.on('reconnected', () => log.debug('Reconnected to MongoDB: %s', connectURI));
