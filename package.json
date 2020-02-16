@@ -6,7 +6,30 @@
     "mongodb",
     "docker"
   ],
+  "type": "module",
   "scripts": {
-    "build": "docker-compose up --build -d"
+    "build": "docker-compose up --build -d",
+    "start": "node --experimental-modules --es-module-specifier-resolution=node server"
+  },
+  "dependencies": {
+    "http-custom-errors": "^8.0.0",
+    "kcors": "^2.2.2",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.1",
+    "koa-response-time": "^2.1.0",
+    "koa-router": "^8.0.8",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.9.1",
+    "pretty-ms": "^6.0.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1"
   }
 }

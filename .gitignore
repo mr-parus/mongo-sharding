@@ -1,4 +1,5 @@
 .idea
 .DS_Store
 mongo/data/*
+node_modules
 
