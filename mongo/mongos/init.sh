@@ -15,9 +15,25 @@ for shard in "${array[@]}"; do
 EOF
 done
 
-
-#create a user for accessing DB
+# 1) Create a user for accessing to claster
+# 2) Create a sharded collection
+# 3) Config sharded collection
+# https://docs.mongodb.com/manual/tutorial/sharding-segmenting-data-by-location/
 /usr/bin/mongo --port 27017 <<EOF
-use admin;
-db.createUser({user: 'admin', pwd: 'admin', roles: [{role: 'clusterAdmin', db: 'admin'}, "readWrite"]})
+use $MONGO_DB_NAME;
+
+db.createUser({user: '$MONGO_USER', pwd: '$MONGO_PASSWORD', roles: [{role: 'clusterAdmin', db: 'admin'}, "readWrite"]});
+
+
+sh.enableSharding("$MONGO_DB_NAME");
+db.createCollection("$SHARDED_COLLECTION_NAME");
+db.adminCommand( { shardCollection: "$SHARDED_COLLECTION_NAMESPACE", key: $SHARD_KEY } );
+
+
+sh.disableBalancing("$SHARDED_COLLECTION_NAMESPACE");
+
+$SHARD_TAGS.forEach(([shardName, tag]) => sh.addShardTag(shardName, tag))
+$SHARD_ZONES.forEach(([collection, min, max, tag]) => sh.addTagRange(collection, min, max, tag))
+
+sh.enableBalancing("$SHARDED_COLLECTION_NAMESPACE");
 EOF

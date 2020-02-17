@@ -19,18 +19,15 @@ const Profile = new mongoose.Schema({
     validate: [validator.isEmail, 'Please fill a valid email address'],
     required: 'Email address is required',
     trim: true,
-    type: String,
-    unique: true
+    type: String
+    // impossible to use unique index while sharding
+    // https://docs.mongodb.com/manual/reference/limits/#limit-sharding-unique-indexes
+    // unique: true
   },
   fullName: {
     type: String,
     required: true
   }
-});
-
-Profile.index({
-  fullName: 'text',
-  email: 'text'
 });
 
 Profile.set('toJSON', {

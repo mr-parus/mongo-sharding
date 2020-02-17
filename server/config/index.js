@@ -11,6 +11,8 @@ const {
 
 export const db = {
   mongo: {
+    port: +MONGO_PORT,
+    host: MONGO_HOST,
     connectOptions: {
       autoIndex: true,
       useNewUrlParser: true,

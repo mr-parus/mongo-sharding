@@ -1,8 +1,8 @@
 import http from 'http';
+import { app } from './app';
 
 import { server as serverConfig } from './config';
-import { app } from './app';
-import { connect as connectToMongoDb } from './utils/db/mongo';
+import { connect as connectToMongoDb, waitUntilMongoIsAlive } from './utils/db/mongo';
 import log from './utils/logger';
 
 const PID = process.pid;
@@ -13,6 +13,7 @@ process.on('unhandledRejection', err => {
 
 async function init() {
   try {
+    await waitUntilMongoIsAlive(1000 * 60 * 8);
     await connectToMongoDb();
 
     const server = http.createServer(app.callback());

@@ -7,121 +7,121 @@ services:
   shard1_r1:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --shardsvr --replSet shard1
+    command: mongod -f /etc/mongod.conf --shardsvr --replSet ${SHARD1_REPSET_NAME}
     environment:
-      - REPSET_NAME=shard1
+      - REPSET_NAME=${SHARD1_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/shard1_r1:/data/db
+      - ./mongo/data/${SHARD1_REPSET_NAME}_r1:/data/db
 
   shard1_r2:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --shardsvr --replSet shard1
+    command: mongod -f /etc/mongod.conf --shardsvr --replSet $SHARD1_REPSET_NAME
     environment:
-      - REPSET_NAME=shard1
+      - REPSET_NAME=${SHARD1_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/shard1_r2:/data/db
+      - ./mongo/data/${SHARD1_REPSET_NAME}_r2:/data/db
 
   shard1_r3:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --shardsvr --replSet shard1
+    command: mongod -f /etc/mongod.conf --shardsvr --replSet ${SHARD1_REPSET_NAME}
     environment:
-      - REPSET_NAME=shard1
+      - REPSET_NAME=${SHARD1_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/shard1_r3:/data/db
+      - ./mongo/data/${SHARD1_REPSET_NAME}_r3:/data/db
 
   # SHARD #2
 
   shard2_r1:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --shardsvr --replSet shard2
+    command: mongod -f /etc/mongod.conf --shardsvr --replSet ${SHARD2_REPSET_NAME}
     environment:
-      - REPSET_NAME=shard2
+      - REPSET_NAME=${SHARD2_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/shard2_r1:/data/db
+      - ./mongo/data/${SHARD2_REPSET_NAME}_r1:/data/db
 
   shard2_r2:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --shardsvr --replSet shard2
+    command: mongod -f /etc/mongod.conf --shardsvr --replSet ${SHARD2_REPSET_NAME}
     environment:
-      - REPSET_NAME=shard2
+      - REPSET_NAME=${SHARD2_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/shard2_r2:/data/db
+      - ./mongo/data/${SHARD2_REPSET_NAME}_r2:/data/db
 
   shard2_r3:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --shardsvr --replSet shard2
+    command: mongod -f /etc/mongod.conf --shardsvr --replSet ${SHARD2_REPSET_NAME}
     environment:
-      - REPSET_NAME=shard2
+      - REPSET_NAME=${SHARD2_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/shard2_r3:/data/db
+      - ./mongo/data/${SHARD2_REPSET_NAME}_r3:/data/db
 
   # CONFIG DBS
 
   cfg_r1:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --configsvr --replSet cfg
+    command: mongod -f /etc/mongod.conf --configsvr --replSet ${CONFIG_REPSET_NAME}
     environment:
-      - REPSET_NAME=cfg
+      - REPSET_NAME=${CONFIG_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/cfg_r1:/data/db
+      - ./mongo/data/${CONFIG_REPSET_NAME}_r1:/data/db
 
   cfg_r2:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --configsvr --replSet cfg
+    command: mongod -f /etc/mongod.conf --configsvr --replSet ${CONFIG_REPSET_NAME}
     environment:
-      - REPSET_NAME=cfg
+      - REPSET_NAME=${CONFIG_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/cfg_r2:/data/db
+      - ./mongo/data/${CONFIG_REPSET_NAME}_r2:/data/db
 
   cfg_r3:
     build:
       context: ./mongo/mongod
-    command: mongod -f /etc/mongod.conf --configsvr --replSet cfg
+    command: mongod -f /etc/mongod.conf --configsvr --replSet ${CONFIG_REPSET_NAME}
     environment:
-      - REPSET_NAME=cfg
+      - REPSET_NAME=${CONFIG_REPSET_NAME}
     expose:
       - 27017
     volumes:
       - ./mongo/mongod/mongod.conf:/etc/mongod.conf
-      - ./mongo/data/cfg_r3:/data/db
+      - ./mongo/data/${CONFIG_REPSET_NAME}_r3:/data/db
 
   # ROUTER
 
   router1:
     build:
       context: ./mongo/mongos
-    command: mongos --port 27017 --bind_ip 0.0.0.0 --configdb "cfg/cfg_r1:27017,cfg_r2:27017,cfg_r3:27017"
+    command: mongos --port 27017 --bind_ip 0.0.0.0 --configdb "${CONFIG_REPSET_NAME}/cfg_r1:27017,cfg_r2:27017,cfg_r3:27017"
     depends_on:
       - shard1_r1
       - shard1_r2
@@ -133,7 +133,8 @@ services:
       - cfg_r2
       - cfg_r3
     environment:
-      - SHARD_LIST=shard1/shard1_r1:27017,shard1_r2:27017,shard1_r3:27017;shard2/shard2_r1:27017,shard2_r2:27017,shard2_r3:27017
+      - SHARD_LIST=${SHARD1_REPSET_NAME}/shard1_r1:27017,shard1_r2:27017,shard1_r3:27017;${SHARD2_REPSET_NAME}/shard2_r1:27017,shard2_r2:27017,shard2_r3:27017
+    env_file: .env
     expose:
       - 27017
     ports:
@@ -150,7 +151,7 @@ services:
     depends_on:
       - router1
     ports:
-    - 3000:3000
+      - 3000:3000
     volumes:
-    - /app/node_modules
-    - ./server:/app
+      - /app/node_modules
+      - ./server:/app

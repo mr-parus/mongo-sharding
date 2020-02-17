@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import util from 'util';
+import waitPort from 'wait-port';
 
 import { db as dbConfig } from '../../../config';
 import log from '../../logger';
 
 const {
-  mongo: { connectURI, connectOptions }
+  mongo: { connectURI, connectOptions, port, host }
 } = dbConfig;
 
 mongoose.Promise = Promise;
@@ -32,4 +33,11 @@ export const connect = async () => {
     log.error('Unable to connect to MongoDB: %s', connectURI);
     throw e;
   }
+};
+
+export const waitUntilMongoIsAlive = async (timer = 1000) => {
+  return new Promise(res => {
+    setTimeout(res, timer);
+    waitPort({ host, port }).then(res);
+  });
 };
