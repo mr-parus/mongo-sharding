@@ -9,17 +9,17 @@ const SEARCH_LIMIT = 10;
 export default async ctx => {
   try {
     const searchArgs = _.pick(ctx.query, ['distributorId', 'email', 'fullName', 'country']);
+    const useExplain = !!ctx.query.explain;
 
-    const profiles = await searchProfilesHandler(searchArgs, SEARCH_LIMIT);
+    const profiles = await searchProfilesHandler(searchArgs, { limit: SEARCH_LIMIT, explain: useExplain });
 
     ctx.state.result = {
       code: 200,
       data: {
-        profiles,
-        type: 'profile',
-        limit: SEARCH_LIMIT,
-        searchArgs,
-        size: profiles.length
+        // Returns a search result or query explanation
+        // https://docs.mongodb.com/manual/reference/method/cursor.explain/
+        [useExplain ? 'explain' : 'profiles']: useExplain ? profiles[0] : profiles,
+        searchArgs
       }
     };
   } catch (e) {

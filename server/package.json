@@ -8,8 +8,11 @@
   ],
   "type": "module",
   "scripts": {
-    "start": "node --experimental-modules --es-module-specifier-resolution=node ./index.js",
-    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node ./index.js"
+    "build": "docker-compose up --build",
+    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node ./index.js",
+    "start": "NODE_ENV=production node --experimental-modules --es-module-specifier-resolution=node ./index.js",
+    "test": "NODE_ENV=test node --experimental-modules --es-module-specifier-resolution=node node_modules/.bin/mocha",
+    "test:in_container": "docker-compose exec server_dev npm run test"
   },
   "dependencies": {
     "faker": "^4.1.0",
@@ -28,12 +31,15 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
+    "mocha": "^7.0.0-esm1",
     "nodemon": "^2.0.2",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "supertest": "^4.0.2"
   }
 }

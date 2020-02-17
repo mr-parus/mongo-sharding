@@ -11,14 +11,23 @@ const {
 
 export const db = {
   mongo: {
-    port: +MONGO_PORT,
-    host: MONGO_HOST,
     connectOptions: {
       autoIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true
     },
-    connectURI: `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB_NAME}`
+    connectURI: `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB_NAME}`,
+    host: MONGO_HOST,
+    port: +MONGO_PORT,
+    shardZones: {
+      countryCodes: ['EE', 'FI', 'CA', 'US'],
+      distributorsIdRanges: {
+        US: { min: 1, max: 100 },
+        CA: { min: 101, max: 200 },
+        EE: { min: 201, max: 300 },
+        FI: { min: 301, max: 400 }
+      }
+    }
   }
 };
 

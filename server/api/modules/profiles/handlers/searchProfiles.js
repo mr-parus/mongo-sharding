@@ -1,6 +1,6 @@
 import Profile from '../../../models/Profile';
 
-export default async ({ email, fullName, country, distributorId }, limit = 10) => {
+export default async ({ email, fullName, country, distributorId }, { limit = 10, explain = false }) => {
   const searchArgs = Object.create(null);
 
   if (distributorId) {
@@ -19,5 +19,11 @@ export default async ({ email, fullName, country, distributorId }, limit = 10) =
     searchArgs.fullName = { $regex: fullName, $options: 'i' };
   }
 
-  return Profile.find(searchArgs).limit(limit);
+  let searchPromise = Profile.find(searchArgs).limit(limit);
+
+  if (explain) {
+    searchPromise = searchPromise.setOptions({ explain: 'executionStats' });
+  }
+
+  return searchPromise;
 };

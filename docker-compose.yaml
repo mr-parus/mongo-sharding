@@ -150,6 +150,7 @@ services:
       - MONGO_HOST=router1
     depends_on:
       - router1
+    restart: on-failure
     ports:
       - 3000:3000
     volumes:

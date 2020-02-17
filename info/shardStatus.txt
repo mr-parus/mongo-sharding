@@ -7,10 +7,10 @@ mongos> sh.status({verbose:1})
   	"clusterId" : ObjectId("5e49f4dd1b72285baad65c46")
   }
   shards:
-        {  "_id" : "shard1",  "host" : "shard1/shard1_r1:27017,shard1_r2:27017,shard1_r3:27017",  "state" : 1,  "tags" : [ "NA", "EU" ] }
-        {  "_id" : "shard2",  "host" : "shard2/shard2_r1:27017,shard2_r2:27017,shard2_r3:27017",  "state" : 1 }
+        {  "_id" : "shard1",  "host" : "shard1/shard1_r1:27017,shard1_r2:27017,shard1_r3:27017",  "state" : 1,  "tags" : [ "NA" ] }
+        {  "_id" : "shard2",  "host" : "shard2/shard2_r1:27017,shard2_r2:27017,shard2_r3:27017",  "state" : 1,  "tags" : [ "EU" ] }
   active mongoses:
-        {  "_id" : "b4912678b93d:27017",  "advisoryHostFQDNs" : [ ],  "mongoVersion" : "4.2.3",  "ping" : ISODate("2020-02-17T02:07:15.054Z"),  "up" : NumberLong(110),  "waiting" : true }
+        {  "_id" : "154a59a8b0b1:27017",  "advisoryHostFQDNs" : [ ],  "mongoVersion" : "4.2.3",  "ping" : ISODate("2020-02-17T22:25:10.338Z"),  "up" : NumberLong(80),  "waiting" : true }
   autosplit:
         Currently enabled: yes
   balancer:
@@ -18,22 +18,30 @@ mongos> sh.status({verbose:1})
         Currently running:  no
         Failed balancer rounds in last 5 attempts:  0
         Migration Results for the last 24 hours:
-                No recent migrations
+                2 : Success
   databases:
         {  "_id" : "config",  "primary" : "config",  "partitioned" : true }
+                config.system.sessions
+                        shard key: { "_id" : 1 }
+                        unique: false
+                        balancing: true
+                        chunks:
+                                shard1	1
+                        { "_id" : { "$minKey" : 1 } } -->> { "_id" : { "$maxKey" : 1 } } on : shard1 Timestamp(1, 0)
         {  "_id" : "db",  "primary" : "shard1",  "partitioned" : true,  "version" : {  "uuid" : UUID("b6e162db-574e-431f-a671-76f430d0e9a3"),  "lastMod" : 1 } }
                 db.profiles
                         shard key: { "country" : 1, "distributorId" : 1 }
                         unique: false
                         balancing: true
                         chunks:
-                                shard1	9
-                        { "country" : { "$minKey" : 1 }, "distributorId" : { "$minKey" : 1 } } -->> { "country" : "CA", "distributorId" : 101 } on : shard1 Timestamp(2, 1)
+                                shard1	7
+                                shard2	2
+                        { "country" : { "$minKey" : 1 }, "distributorId" : { "$minKey" : 1 } } -->> { "country" : "CA", "distributorId" : 101 } on : shard1 Timestamp(4, 1)
                         { "country" : "CA", "distributorId" : 101 } -->> { "country" : "CA", "distributorId" : 200 } on : shard1 Timestamp(2, 2)
                         { "country" : "CA", "distributorId" : 200 } -->> { "country" : "EE", "distributorId" : 201 } on : shard1 Timestamp(2, 3)
-                        { "country" : "EE", "distributorId" : 201 } -->> { "country" : "EE", "distributorId" : 300 } on : shard1 Timestamp(2, 4)
+                        { "country" : "EE", "distributorId" : 201 } -->> { "country" : "EE", "distributorId" : 300 } on : shard2 Timestamp(3, 0)
                         { "country" : "EE", "distributorId" : 300 } -->> { "country" : "FI", "distributorId" : 301 } on : shard1 Timestamp(2, 5)
-                        { "country" : "FI", "distributorId" : 301 } -->> { "country" : "FI", "distributorId" : 400 } on : shard1 Timestamp(2, 6)
+                        { "country" : "FI", "distributorId" : 301 } -->> { "country" : "FI", "distributorId" : 400 } on : shard2 Timestamp(4, 0)
                         { "country" : "FI", "distributorId" : 400 } -->> { "country" : "US", "distributorId" : 1 } on : shard1 Timestamp(2, 7)
                         { "country" : "US", "distributorId" : 1 } -->> { "country" : "US", "distributorId" : 100 } on : shard1 Timestamp(2, 8)
                         { "country" : "US", "distributorId" : 100 } -->> { "country" : { "$maxKey" : 1 }, "distributorId" : { "$maxKey" : 1 } } on : shard1 Timestamp(2, 9)
