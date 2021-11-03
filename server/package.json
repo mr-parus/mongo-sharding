@@ -25,7 +25,7 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.1",
     "pretty-ms": "^6.0.0",
-    "validator": "^12.2.0",
+    "validator": "^13.7.0",
     "wait-port": "^0.2.7",
     "winston": "^3.2.1"
   },
