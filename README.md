@@ -1,5 +1,5 @@
-# advanced-ppi-storing
-Demonstration of a distributed Personally Identifiable Information  (PPI) storing using MongoDB sharding
+# Mongo sharding
+Demonstration of a distributed Personally Identifiable Information (PPI) storing using MongoDB sharding
 
 #### Table of Contents
 - [Problem](#Problem)
