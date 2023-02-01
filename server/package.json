@@ -23,7 +23,7 @@
     "koa-response-time": "^2.1.0",
     "koa-router": "^8.0.8",
     "lodash": "^4.17.15",
-    "mongoose": "^5.9.1",
+    "mongoose": "^5.13.15",
     "pretty-ms": "^6.0.0",
     "validator": "^12.2.0",
     "wait-port": "^0.2.7",
